@@ -1,0 +1,31 @@
+{
+  "name": "@devops/utils",
+  "version": "1.0.0",
+  "description": "DevOps 前端工具库",
+  "main": "dist/devops-utils.esm.js",
+  "scripts": {
+    "dev": "cross-env ENV=development rollup -c -w",
+    "build": "cross-env ENV=production rollup -c && cross-env METHOD=esm rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FE-Friday/devops-utils.git"
+  },
+  "keywords": [],
+  "author": "FE-friday",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FE-Friday/devops-utils/issues"
+  },
+  "homepage": "https://github.com/FE-Friday/devops-utils#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "cross-env": "^7.0.3",
+    "resize-observer-polyfill": "^1.5.1",
+    "rollup": "^3.9.0",
+    "rollup-plugin-uglify": "^6.0.4"
+  }
+}
