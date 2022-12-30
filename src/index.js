@@ -8,7 +8,7 @@ import feNumber from "./number";
 import feUrl from "./url";
 import fePlatform from "./platform";
 import { feLocal, feSession, feCookie } from "./store";
-// import feDate from "./date";
+import feDate from "./date";
 import feEvent from "./event";
 
 export const util = feUtil;
@@ -24,7 +24,7 @@ export const cookie = feCookie;
 export const local = feLocal;
 export const session = feSession;
 export const event = feEvent;
-// export const date = feDate;
+export const date = feDate;
 
 export default {
   ...util,
@@ -40,5 +40,5 @@ export default {
   cookie,
   local,
   session,
-  // date
+  date
 };
