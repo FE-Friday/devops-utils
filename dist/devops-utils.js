@@ -1172,39 +1172,6 @@ var forEachType = function forEachType() {
 };
 
 /**
- * 判断是否为类数组
- *
- * @export
- * @param {*} val
- * @returns {boolean}
- */
-var isArrayLike = function isArrayLike(val) {
-  return "length" in val;
-};
-
-/**
- * 拉平数组
- * @export
- * @param {Array} arr
- * @param {number} [depth=1]
- * @returns {Array}
- */
-var flatten = function flatten(arr) {
-  var depth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  return arr.reduce(function (a, v) {
-    return a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v);
-  }, []);
-};
-
-// 深度拉平
-var deepFlatten = function deepFlatten(arr) {
-  var _ref;
-  return (_ref = []).concat.apply(_ref, _toConsumableArray(arr.map(function (v) {
-    return Array.isArray(v) ? deepFlatten(v) : v;
-  })));
-};
-
-/**
  * 数组去重
  *
  * @export
@@ -1303,13 +1270,13 @@ var differenceAll = function differenceAll() {
  */
 var array2Tree = function array2Tree(arr) {
   var parentId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-  var _ref2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
-    _ref2$id = _ref2.id,
-    id = _ref2$id === void 0 ? "id" : _ref2$id,
-    _ref2$pid = _ref2.pid,
-    pid = _ref2$pid === void 0 ? "pid" : _ref2$pid,
-    _ref2$children = _ref2.children,
-    children = _ref2$children === void 0 ? "children" : _ref2$children;
+  var _ref = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+    _ref$id = _ref.id,
+    id = _ref$id === void 0 ? "id" : _ref$id,
+    _ref$pid = _ref.pid,
+    pid = _ref$pid === void 0 ? "pid" : _ref$pid,
+    _ref$children = _ref.children,
+    children = _ref$children === void 0 ? "children" : _ref$children;
   return arr.filter(function (item) {
     return item[pid] === parentId;
   }).map(function (item) {
@@ -1330,11 +1297,11 @@ var array2Tree = function array2Tree(arr) {
  * @returns
  */
 var tree2Array = function tree2Array(tree) {
-  var _ref3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
-    _ref3$id = _ref3.id,
-    id = _ref3$id === void 0 ? "id" : _ref3$id,
-    _ref3$children = _ref3.children,
-    children = _ref3$children === void 0 ? "children" : _ref3$children;
+  var _ref2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+    _ref2$id = _ref2.id,
+    id = _ref2$id === void 0 ? "id" : _ref2$id,
+    _ref2$children = _ref2.children,
+    children = _ref2$children === void 0 ? "children" : _ref2$children;
   var list = tree.reduce(function (acc, item) {
     if (Array.isArray(item[children]) && item[children].length) {
       return [].concat(_toConsumableArray(acc), [item], _toConsumableArray(tree2Array(item[children], {
@@ -1360,13 +1327,13 @@ var tree2Array = function tree2Array(tree) {
  * }={}]
  * @returns
  */
-var getTreeChains = function getTreeChains(_ref4) {
-  var id = _ref4.id,
-    tree = _ref4.tree,
-    _ref4$filter = _ref4.filter,
-    filter = _ref4$filter === void 0 ? ["id"] : _ref4$filter,
-    _ref4$options = _ref4.options,
-    options = _ref4$options === void 0 ? {} : _ref4$options;
+var getTreeChains = function getTreeChains(_ref3) {
+  var id = _ref3.id,
+    tree = _ref3.tree,
+    _ref3$filter = _ref3.filter,
+    filter = _ref3$filter === void 0 ? ["id"] : _ref3$filter,
+    _ref3$options = _ref3.options,
+    options = _ref3$options === void 0 ? {} : _ref3$options;
   var opts = {
     id: "id",
     pId: "pId",
@@ -1510,9 +1477,9 @@ var shuffe = function shuffe(arr) {
   var len = list.length;
   while (len) {
     var i = Math.floor(Math.random() * len--);
-    var _ref5 = [list[i], list[len]];
-    list[len] = _ref5[0];
-    list[i] = _ref5[1];
+    var _ref4 = [list[i], list[len]];
+    list[len] = _ref4[0];
+    list[i] = _ref4[1];
   }
   return list;
 };
@@ -2271,6 +2238,34 @@ var Storage = /*#__PURE__*/function () {
 var feCookie = cookie$1;
 var feLocal = localStore;
 var feSession = sessionStore;
+
+function addZero(num) {
+  return num < 10 ? '0' + num : num.toString();
+}
+
+/**
+ * 用于日期格式化
+ * @param {*} date 日期
+ * @returns 返回格式化日期
+ */
+var formatDateTime = function formatDateTime(date, format) {
+  if (!date) return '';
+  var time = date instanceof Date ? date : new Date(date);
+  var Y = time.getFullYear() + '-';
+  var M = addZero(time.getMonth() + 1) + '-';
+  var D = addZero(time.getDate());
+  var h = addZero(time.getHours()) + ':';
+  var m = addZero(time.getMinutes()) + ':';
+  var s = addZero(time.getSeconds());
+  if (format === 'yyyy-MM-dd') {
+    return Y + M + D;
+  } else {
+    return Y + M + D + ' ' + h + m + s;
+  }
+};
+var feDate = {
+  formatDateTime: formatDateTime
+};
 
 /**
  * A collection of shims that provide minimal functionality of the ES6 collections.
@@ -3318,17 +3313,17 @@ var cookie = feCookie;
 var local = feLocal;
 var session = feSession;
 var event = feEvent;
-// export const date = feDate;
-
+var date = feDate;
 var index = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, util), type), string), html), array), object), number), url), platform), event), {}, {
   cookie: cookie,
   local: local,
-  session: session
-  // date
+  session: session,
+  date: date
 });
 
 exports.array = array;
 exports.cookie = cookie;
+exports.date = date;
 exports.default = index;
 exports.event = event;
 exports.html = html;

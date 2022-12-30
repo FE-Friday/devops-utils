@@ -1,4 +1,4 @@
-import { isArray, isFunction } from "../type";
+import { isFunction } from "../type";
 import { removeKeys } from "../object";
 
 // 从前后遍历数组
@@ -6,33 +6,6 @@ const forEachType = (type = "left") => (arr, cb) => {
   const list = type === "left" ? arr : [...arr].reverse();
   list.forEach(cb);
 };
-
-/**
- * 判断是否为类数组
- *
- * @export
- * @param {*} val
- * @returns {boolean}
- */
-export const isArrayLike = val => "length" in val;
-
-/**
- * 拉平数组
- * @export
- * @param {Array} arr
- * @param {number} [depth=1]
- * @returns {Array}
- */
-export const flatten = (arr, depth = 1) =>
-  arr.reduce(
-    (a, v) =>
-      a.concat(depth > 1 && Array.isArray(v) ? flatten(v, depth - 1) : v),
-    []
-  );
-
-// 深度拉平
-export const deepFlatten = arr =>
-  [].concat(...arr.map(v => (Array.isArray(v) ? deepFlatten(v) : v)));
 
 /**
  * 数组去重

@@ -2268,6 +2268,34 @@ var feCookie = cookie$1;
 var feLocal = localStore;
 var feSession = sessionStore;
 
+function addZero(num) {
+  return num < 10 ? '0' + num : num.toString();
+}
+
+/**
+ * 用于日期格式化
+ * @param {*} date 日期
+ * @returns 返回格式化日期
+ */
+var formatDateTime = function formatDateTime(date, format) {
+  if (!date) return '';
+  var time = date instanceof Date ? date : new Date(date);
+  var Y = time.getFullYear() + '-';
+  var M = addZero(time.getMonth() + 1) + '-';
+  var D = addZero(time.getDate());
+  var h = addZero(time.getHours()) + ':';
+  var m = addZero(time.getMinutes()) + ':';
+  var s = addZero(time.getSeconds());
+  if (format === 'yyyy-MM-dd') {
+    return Y + M + D;
+  } else {
+    return Y + M + D + ' ' + h + m + s;
+  }
+};
+var feDate = {
+  formatDateTime: formatDateTime
+};
+
 /**
  * A collection of shims that provide minimal functionality of the ES6 collections.
  *
@@ -3314,13 +3342,12 @@ var cookie = feCookie;
 var local = feLocal;
 var session = feSession;
 var event = feEvent;
-// export const date = feDate;
-
+var date = feDate;
 var index = _objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2(_objectSpread2({}, util), type), string), html), array), object), number), url), platform), event), {}, {
   cookie: cookie,
   local: local,
-  session: session
-  // date
+  session: session,
+  date: date
 });
 
-export { array, cookie, index as default, event, html, local, number, object, platform, session, string, type, url, util };
+export { array, cookie, date, index as default, event, html, local, number, object, platform, session, string, type, url, util };
