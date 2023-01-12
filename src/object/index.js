@@ -1,7 +1,7 @@
 import { isObject } from "../type";
 
 /**
- * 克隆对象
+ * 浅拷贝对象
  *
  * @export
  * @param {*} origin 需要克隆的原对象
@@ -18,7 +18,7 @@ export const clone = (origin, result = {}) => {
 };
 
 /**
- * 深克隆对象
+ * 深拷贝对象
  *
  * @export
  * @param {*} obj
@@ -46,14 +46,6 @@ export const deepClone = (data, weak = new WeakMap()) => {
   }
   return result;
 };
-
-/**
- * 合并对象
- *
- * @export
- * @param {*} src
- */
-export const extend = (target, ...args) => Object.assign(target, ...args);
 
 /**
  * 根据保留/删除类型过滤字段
@@ -94,12 +86,14 @@ export const removeKeys = filterKeys("remove");
  *
  * @export
  * @param {*} obj
- * @param {*} [rule={}] 键值对，key 为 原字段，value为替换字段
+ * @param {*} rule={name: 'firstName'} 键值对，key 为 原字段，value为替换字段
  * @returns
  */
 export const replaceKeys = (obj, rules = {}) => {
   const keys = Object.keys(rules);
+  console.log("keys => ", keys)
   return Object.keys(obj).reduce((acc, key) => {
+    console.log(keys.includes(key) ? rules[key] : key);
     acc[keys.includes(key) ? rules[key] : key] = obj[key];
     return acc;
   }, {});
@@ -108,7 +102,6 @@ export const replaceKeys = (obj, rules = {}) => {
 export default {
   clone,
   deepClone,
-  extend,
   keepKeys,
   removeKeys,
   replaceKeys
