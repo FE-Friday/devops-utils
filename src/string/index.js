@@ -1,22 +1,23 @@
 /**
- * 转化为驼峰值
+ * 中华线或者下划线转化为驼峰格式
  *
  * @export
- * @param {string} val
+ * @param {string} str
+ * @eg: 'get-element-by-id' 或者 'get_element_by_id' 转化为 'getElementById' 格式
  * @returns
  */
-export const camelize = val =>
-  val.replace(/[-_]+(.)?/g, (match, item) => (item ? item.toUpperCase() : ""));
+export const camelCase = str =>
+  str.replace(/[-_]+([a-z])?/g, (_, item) => (item ? item.toUpperCase() : ""));
 
 /**
- * 转化为中划线值
+ * 驼峰转化为中划线值
  *
  * @export
- * @param {string} val
+ * @param {string} str
  * @returns
  */
-export const dasherize = val =>
-  val
+export const kebabCase = str =>
+  str
     .replace(/([A-Z])/g, "-$1")
     .replace(/_+/g, "-")
     .toLowerCase();
@@ -60,80 +61,7 @@ const getResultByAttr = (list, attrs) => {
 };
 
 /**
- * 从文本中获取指定条件的标签
- *
- * @export
- * @param {source: string, tag: str, attrs?: object}
- * source: 需要解析的源文本
- * tag: 需要解析元素的tagName
- * attrs: 附加属性添加更快查询解析元素
- * @returns {Array}
- */
-export const getTagfromHtmlString = ({ source, tag, attrs = {} } = {}) => {
-  if (!source) {
-    console.warn("请添加source字段");
-    return [];
-  }
-  if (!tag) {
-    console.warn("请添加tag字段");
-    return [];
-  }
-  const singleTags = "br,hr,img,input,param,meta,link".split(",");
-  let reg = new RegExp(`<${tag}[^<>]*>[\\d\\D]*?<\/${tag}>`, "gmi");
-  // 判断是否为但标签
-  if (singleTags.includes(tag)) {
-    reg = new RegExp(`<${tag}[^<>]*\/?>`, "gmi");
-  }
-  let result = source.match(reg);
-  if (result && result.length && attrs && Object.keys(attrs).length) {
-    result = getResultByAttr(result, attrs);
-  }
-  return result || [];
-};
-
-/**
- * 获取html文本中某类元素指定属性的属性值
- *
- * @export
- * @param {source: string, tag: str, attr: string, attrs?: object}
- * source: 需要解析的源文本
- * tag: 需要解析元素的tagName
- * attr: 需要获取属性值的解析元素的属性名称
- * attrs: 附加属性添加更快查询解析元素
- * @returns {Array}
- */
-export const getAttrFromHtmlString = ({
-  source,
-  tag,
-  attr,
-  attrs = {}
-} = {}) => {
-  if (!source) {
-    console.warn("请添加source字段");
-    return [];
-  }
-  if (!tag) {
-    console.warn("请添加tag字段");
-    return [];
-  }
-  if (!attr) {
-    console.warn("请添加attr字段");
-    return [];
-  }
-  const result = getTagfromHtmlString({ source, tag, attrs });
-  const attrList = result.map(item => {
-    const reg = new RegExp(`${attr}\\s*=\\s*(['"])([^\\1]+?)\\1`, "gmi");
-    const list = reg.exec(item);
-    if (list && list.length > 1) {
-      return list[2];
-    }
-    return "";
-  });
-  return attrList;
-};
-
-/**
- * 获取html文本中转化为html后的纯文本信息
+ * 获取html字符串文本中的纯文本信息
  *
  * @export
  * @param {string} source 需要解析的源文本
@@ -160,10 +88,8 @@ export const escapeHtml = str => {
 };
 
 export default {
-  camelize,
-  dasherize,
-  getTagfromHtmlString,
-  getAttrFromHtmlString,
+  camelCase,
+  kebabCase,
   getPureTextFromHtmlString,
   escapeHtml
 };
