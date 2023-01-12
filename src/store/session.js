@@ -3,12 +3,16 @@ import { removeKeys } from "../object";
 const Store = window.sessionStorage;
 const storeMap = new Map();
 
-function sessionStore(namespaced = "zstore") {
+function sessionStore(namespaced = "store") {
   if (storeMap.has(namespaced)) {
     return storeMap.get(namespaced);
   }
   storeMap.set(namespaced, new Storage(namespaced));
   return storeMap.get(namespaced);
+}
+
+function saveState(namespaced, state) {
+  Store.setItem(namespaced, JSON.stringify(state));
 }
 
 class Storage {
@@ -24,20 +28,16 @@ class Storage {
       if (data) {
         this.state = JSON.parse(data);
       }
-      this.saveState();
+      saveState(this.namespaced, this.state);
     } catch (err) {
       this.state = {};
-      this.saveState();
+      saveState(this.namespaced, this.state);
     }
-  }
-
-  saveState() {
-    Store.setItem(this.namespaced, JSON.stringify(this.state));
   }
 
   setItem(key, data) {
     this.state[key] = data;
-    this.saveState();
+    saveState(this.namespaced, this.state);
     return this.state;
   }
 
@@ -47,7 +47,7 @@ class Storage {
 
   removeItem(key) {
     this.state = removeKeys(this.state, [key]);
-    this.saveState();
+    saveState(this.namespaced, this.state);
     return this.state;
   }
 
