@@ -1,4 +1,4 @@
-import { camelize } from "../string";
+import { camelCase } from "../string";
 
 const ScreenFullAPIList = [
   "exitFullscreen",
@@ -13,11 +13,11 @@ const ScreenfullHash = (function() {
   const prefix = ["webkit", "", "moz", "ms"];
   for (let i = 0; i < prefix.length; i++) {
     if (
-      camelize(`${prefix[i]}${prefix[i] ? "-" : ""}${ScreenFullAPIList[0]}`) in
+      camelCase(`${prefix[i]}${prefix[i] ? "-" : ""}${ScreenFullAPIList[0]}`) in
       document
     ) {
       return ScreenFullAPIList.reduce((acc, val, index) => {
-        acc[val] = camelize(`${prefix[i]}-${ScreenFullAPIList[index]}`);
+        acc[val] = camelCase(`${prefix[i]}-${ScreenFullAPIList[index]}`);
         return acc;
       }, {});
     }
