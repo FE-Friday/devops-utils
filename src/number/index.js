@@ -1,5 +1,4 @@
 import { isNumber, isArray } from "../type";
-import BigInt from "./big-integer";
 
 // 将参数转为数组，如果参数本身为数组且第一个元素也为数组则返回第一个元素
 const args2Array = args => {
@@ -10,13 +9,8 @@ const args2Array = args => {
   return params;
 };
 
-// 升降序
-function sort(sign, args) {
-  return args.sort((a, b) => (a - b) * sign);
-}
-
 /**
- * 汇总
+ * 求和
  *
  * @export
  * @param {*} args
@@ -68,7 +62,8 @@ export const max = (...args) => {
  *
  * @export
  * @param {*} num
- * @returns
+ * @returns 
+ * @example 10000000 to 10,000,000
  */
 export const toCurrency = num =>
   String(num).replace(/(?!^)(?=(\d{3})+$)/g, ",");
@@ -84,41 +79,11 @@ export const toCurrency = num =>
 export const toFixed = (num, size = 2) =>
   isNumber(num) ? num.toFixed(size) : num;
 
-/**
- * 升序
- *
- * @export
- * @param {*} args
- * @returns
- */
-export const sortAsc = (...args) => {
-  const params = args2Array(args);
-  return sort(1, params);
-};
-
-/**
- * 降序
- *
- * @export
- * @param {*} args
- * @returns
- */
-export const sortDesc = (...args) => {
-  const params = args2Array(args);
-  return sort(-1, params);
-};
-
-// bigInteger类型处理
-export const bigInt = BigInt;
-
 export default {
   sum,
   average,
   min,
   max,
   toFixed,
-  toCurrency,
-  sortAsc,
-  sortDesc,
-  bigInt
+  toCurrency
 };
