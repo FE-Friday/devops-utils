@@ -1,7 +1,7 @@
 {
   "name": "@devops/utils",
   "version": "1.0.0",
-  "description": "DevOps 前端工具库",
+  "description": "DevOps 前端工具函数库",
   "main": "dist/devops-utils.esm.js",
   "scripts": {
     "dev": "cross-env ENV=development rollup -c -w",
