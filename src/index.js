@@ -1,7 +1,6 @@
 import feUtil from "./utils";
 import feType from "./type";
 import feString from "./string";
-import feArray from "./array";
 import feObject from "./object";
 import feNumber from "./number";
 import feUrl from "./url";
@@ -12,7 +11,6 @@ import feDate from "./date";
 export const util = feUtil;
 export const type = feType;
 export const string = feString;
-export const array = feArray;
 export const object = feObject;
 export const number = feNumber;
 export const url = feUrl;
@@ -26,7 +24,6 @@ export default {
   ...util,
   ...type,
   ...string,
-  ...array,
   ...object,
   ...number,
   ...url,
