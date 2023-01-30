@@ -11,11 +11,11 @@ suffix = isEsm ? ".esm" + suffix : suffix;
 const config = {
   input: "src/index.js",
   output: {
-    file: `dist/devops-utils${suffix}.js`,
+    file: `dist/devops-toolbox${suffix}.js`,
     format: isEsm ? "es" : "cjs",
-    name: "devops-utils",
+    name: "devops-toolbox",
     globals: {
-      "devops-utils": "devops-utils"
+      "devops-toolbox": "devops-toolbox"
     }
   },
   plugins: [

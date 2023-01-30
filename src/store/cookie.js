@@ -53,29 +53,22 @@ const getHanlder = function(name) {
     }
   }
 
-  return name === void 0 ? null : all;
+  return name === void 0 ? all : null;
 };
 
-const get = function(name) {
-  getHanlder(name);
-};
+const get = name => getHanlder(name);
 
-const clear = function(name, options) {
-  set(name, "", {
-    expires: -1,
-    domain: options && options.domain,
-    path: options && options.path,
-    secure: 0,
-    httponly: 0
-  });
-};
+const clear = (name, options) => set(name, "", {
+  expires: -1,
+  domain: options && options.domain,
+  path: options && options.path,
+  secure: 0,
+  httponly: 0
+});
 
-const all = function() {
-  getHanlder();
-};
+const all = () => getHanlder();
 
 export default {
-  defaults,
   set,
   get,
   clear,

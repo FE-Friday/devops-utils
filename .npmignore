@@ -1,0 +1,8 @@
+.idea
+.vscode
+.history
+node_modules
+src
+babel.config.js
+rollup.config.mjs
+yarn.lock

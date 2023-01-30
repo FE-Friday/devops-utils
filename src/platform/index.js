@@ -1,6 +1,4 @@
-const isPlatform = regexp => {
-  return () => regexp.test(navigator.userAgent);
-};
+const isPlatform = regexp => regexp.test(navigator.userAgent);
 
 export const isMobile = isPlatform(
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i

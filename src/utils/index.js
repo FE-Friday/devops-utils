@@ -1,5 +1,3 @@
-import Screenfull from "./screenfull";
-
 /**
  * 节流：用于有连续事件响应，每间隔一定时间触发一次
  *
@@ -194,9 +192,6 @@ export const isPost = isRule(/^[1-9]\d{5}(?!\d)$/);
 // 是否为汉字
 export const isCharacters = isRule(/^[\u4e00-\u9fa5]+$/);
 
-// 全屏功能
-export const screenfull = Screenfull;
-
 export default {
   throttle,
   debounce,
@@ -215,6 +210,5 @@ export default {
   isQQ,
   isIdCard,
   isPost,
-  isCharacters,
-  screenfull
+  isCharacters
 };

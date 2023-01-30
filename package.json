@@ -1,11 +1,11 @@
 {
-  "name": "@devops/utils",
+  "name": "@devops/toolbox",
   "version": "1.0.0",
-  "description": "DevOps 前端工具库",
-  "main": "dist/devops-utils.esm.js",
+  "description": "DevOps 前端工具函数库",
+  "main": "dist/devops-toolbox.esm.min.js",
   "scripts": {
     "dev": "cross-env ENV=development rollup -c -w",
-    "build": "cross-env ENV=production rollup -c && cross-env METHOD=esm rollup -c"
+    "build": "cross-env ENV=production rollup -c && cross-env ENV=production METHOD=esm rollup -c"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "cross-env": "^7.0.3",
-    "resize-observer-polyfill": "^1.5.1",
     "rollup": "^3.9.0",
     "rollup-plugin-uglify": "^6.0.4"
   }

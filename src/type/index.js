@@ -1,6 +1,11 @@
-// 获取各数据数据类型
-export const isType = type => val =>
-  Object.prototype.toString.call(val) === `[object ${type}]`;
+/**
+ * 获取各数据数据类型
+ * @param {string} type string 预期的参数类型
+ * @param * val 要检测类型的数据
+ * @returns Boolean
+ * @example isType('String')('字符串')
+ */
+export const isType = type => (val => Object.prototype.toString.call(val) === `[object ${type}]`);
 
 // 判断是否为对象
 export const isObject = val =>
