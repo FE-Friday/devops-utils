@@ -3,6 +3,6 @@
 .history
 node_modules
 src
-babel.config.js
+babel.config.json
 rollup.config.mjs
 yarn.lock
