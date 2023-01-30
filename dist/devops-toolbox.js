@@ -417,7 +417,7 @@ var feType = {
 };
 
 /**
- * 中华线或者下划线转化为驼峰格式
+ * 中划线或者下划线转化为驼峰格式
  *
  * @export
  * @param {string} str
@@ -876,7 +876,6 @@ var all = function all() {
   return getHanlder();
 };
 var cookie$1 = {
-  defaults: defaults,
   set: set,
   get: get,
   clear: clear,
@@ -1044,7 +1043,9 @@ var formatDateTime = function formatDateTime(date, format) {
  * @returns string 返回距离当前时间的间隔
  */
 var getBeforeDate = function getBeforeDate(date) {
-  var ms = Date.now() - date.getTime();
+  if (!date) return '';
+  var time = date instanceof Date ? date : new Date(date);
+  var ms = Date.now() - time.getTime();
   var seconds = Math.round(ms / 1000);
   var minutes = Math.round(ms / 60000);
   var hours = Math.round(ms / 3600000);

@@ -29,7 +29,9 @@ export const formatDateTime = (date, format) => {
  * @returns string 返回距离当前时间的间隔
  */
 export const getBeforeDate = (date) => {
-    const ms = Date.now() - date.getTime();
+    if (!date) return ''
+    const time = date instanceof Date ? date : new Date(date)
+    const ms = Date.now() - time.getTime();
     const seconds = Math.round(ms / 1000);
     const minutes = Math.round(ms / 60000);
     const hours = Math.round(ms / 3600000);
@@ -38,19 +40,19 @@ export const getBeforeDate = (date) => {
     const years = Math.round(ms / 31104000000);
 
     switch (true) {
-        case seconds < 60:
-          return `${seconds}秒前"`;
-        case minutes < 60:
-          return `${minutes}分钟前"`;
-        case hours < 24:
-          return `${hours}小时前"`;
-        case days < 30:
-          return `${days}天前`;
-        case months < 12:
-          return `${months}月前`;
-        default:
-          return `${years}年前`;
-      }
+      case seconds < 60:
+        return `${seconds}秒前"`;
+      case minutes < 60:
+        return `${minutes}分钟前"`;
+      case hours < 24:
+        return `${hours}小时前"`;
+      case days < 30:
+        return `${days}天前`;
+      case months < 12:
+        return `${months}月前`;
+      default:
+        return `${years}年前`;
+    }
 }
 
 export default {

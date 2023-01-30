@@ -69,7 +69,6 @@ const clear = (name, options) => set(name, "", {
 const all = () => getHanlder();
 
 export default {
-  defaults,
   set,
   get,
   clear,
