@@ -2,7 +2,7 @@
   "name": "@devops/toolbox",
   "version": "1.0.0",
   "description": "DevOps 前端工具函数库",
-  "main": "dist/devops-toolbox.js",
+  "main": "dist/devops-toolbox.esm.min.js",
   "scripts": {
     "dev": "cross-env ENV=development rollup -c -w",
     "build": "cross-env ENV=production rollup -c && cross-env ENV=production METHOD=esm rollup -c"
