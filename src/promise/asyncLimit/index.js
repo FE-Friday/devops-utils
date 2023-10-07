@@ -1,50 +1,61 @@
-let targetArray = []; // 目标调用数组
-let resultArray = []; // 结果数组
-let runningPromise = null; // 正在运行的 Promise
-let limitNum = 0; // 最大并发数
-let defaultFn = (value) => value; // 默认处理函数
+/*
+ * @Author: xiaoshanwen
+ * @Date: 2023-09-25 14:14:08
+ * @LastEditTime: 2023-10-07 09:17:27
+ * @FilePath: /devops-utils/src/promise/asynclimit/index.js
+ */
+export default class asyncExecutor {
+  constructor(limit, defaultFn) {
+    this.limitNum = limit;
+    this.defaultFn = defaultFn;
+    this.initTask();
+  }
 
-function asyncInit(limit, fn) {
-  limitNum = limit;
-  defaultFn = fn;
-}
-
- async function asyncLimit(arr) {
-  const promiseArray = []; // 所有 Promise 实例
-  const running = []; // 正在执行的 Promise 数组
-
-  for (const item of arr) {
-    const p = Promise.resolve((item.fn || defaultFn)(item.value || item)); // 调用元素的处理函数
-    promiseArray.push(p);
-
-    if (arr.length >= limitNum) {
-      const e = p.then(() => running.splice(running.indexOf(e), 1));
-      running.push(e);
-
-      if (running.length >= limitNum) {
-        await Promise.race(running);
+  asyncLimit(resolve, reject) {
+    const task = this.promiseTaskQueue.shift();
+    if (task) {
+      const p = task();
+      const e = p.then((res) => {
+        resolve(res);
+        this.runningPromise.splice(this.runningPromise.indexOf(e), 1);
+        if (this.promiseTaskQueue.length === 0) {
+          this.initTask();
+        }
+      }).catch((err) => {
+        reject(err);
+      });
+      this.runningPromise.push(e);
+      if (this.runningPromise.length >= this.limitNum) {
+        this.racePromise = Promise.race(this.runningPromise); // 竞速promise
       }
     }
   }
 
-  return Promise.allSettled(promiseArray);
-}
-
-function asyncExecute(item) {
-  targetArray.push(item);
-
-  if (!runningPromise) {
-    runningPromise = Promise.resolve().then(()=>{
-      asyncLimit(targetArray).then((res) => {
-        resultArray.push(...res);
-        targetArray = [];
-        runningPromise = null;
-      });
-    })
+  asyncExecute(item) {
+    // 返回新的pormise
+    return new Promise((resolve, reject) => {
+      this.promiseTaskQueue.push(this.getTask(item));
+      if (this.racePromise) {
+        this.racePromise = this.racePromise.then(async () => {
+          this.asyncLimit(resolve, reject);
+          await Promise.race(this.runningPromise);
+        });
+      } else {
+        this.asyncLimit(resolve, reject);
+      }
+    });
   }
-}
 
-export default {
-  asyncInit,
-  asyncExecute
+  initTask() {
+    this.promiseTaskQueue = []; // 真实执行promise集合
+    this.runningPromise = []; // 执行中的promise集合
+    this.racePromise = ''; // 竞速promise，标志进入
+  }
+
+  getTask(item) {
+    return () =>
+      new Promise((resolve) => {
+        resolve((item.fn || this.defaultFn)(item.value || item));
+      });
+  }
 }
